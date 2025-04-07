@@ -6,6 +6,7 @@ __pycache__/
 depth_maps/
 depth_maps_w/
 env/
+open3d-env/
 face_images/
 original_jpg/
 point_clouds/

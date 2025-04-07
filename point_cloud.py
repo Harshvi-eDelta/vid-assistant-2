@@ -1,4 +1,4 @@
-import os
+'''import os
 import cv2
 import open3d as o3d
 import numpy as np
@@ -55,13 +55,17 @@ for file in tqdm(os.listdir(rgb_folder)):
     # Save to file
     o3d.io.write_point_cloud(output_path, pcd)
 
-print("Batch point cloud generation complete.")
+print("Batch point cloud generation complete.")'''
 
 '''import open3d as o3d
 
 # Load saved point cloud
-pcd = o3d.io.read_point_cloud("/Users/edelta076/Desktop/Project_VID_Assistant2/point_clouds/1.ply")
-
+pcd = o3d.io.read_point_cloud("/Users/edelta076/Desktop/Project_VID_Assistant2/point_clouds/716.ply")
+print(pcd)  # Should print number of points > 0
 # Visualize
 o3d.visualization.draw_geometries([pcd])'''
+
+'''import open3d as o3d
+mesh = o3d.io.read_triangle_mesh("/Users/edelta076/Desktop/Project_VID_Assistant2/ed_mesh/716_mesh.glb")
+o3d.visualization.draw_geometries([mesh])'''
 
