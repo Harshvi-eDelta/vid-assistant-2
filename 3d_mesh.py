@@ -3,6 +3,7 @@ import os
 from tqdm import tqdm
 import numpy as np
 
+# Input and output folders
 pcd_folder = "/Users/edelta076/Desktop/Project_VID_Assistant2/point_clouds"
 mesh_folder = "/Users/edelta076/Desktop/Project_VID_Assistant2/3d_mesh"
 os.makedirs(mesh_folder, exist_ok=True)
@@ -18,21 +19,19 @@ for file in tqdm(os.listdir(pcd_folder)):
         # Load point cloud
         pcd = o3d.io.read_point_cloud(pcd_path)
 
-        # Skip empty point clouds
         if len(pcd.points) == 0:
-            print(f"⚠️ Skipping empty point cloud: {file}")
+            print(f"Skipping empty point cloud: {file}")
             continue
+
+        # Optional: Remove noise
+        pcd, _ = pcd.remove_statistical_outlier(nb_neighbors=20, std_ratio=2.0)
 
         # Estimate normals
         pcd.estimate_normals(search_param=o3d.geometry.KDTreeSearchParamHybrid(radius=0.05, max_nn=30))
+        pcd.orient_normals_consistent_tangent_plane(50)
 
-        # Check if normals are valid
-        if not pcd.has_normals():
-            print(f" Normals not computed for: {file}")
-            continue
-
-        # Ball Pivoting Reconstruction (works better than Poisson on macOS)
-        radii = [0.005, 0.01, 0.02, 0.04]
+        # Ball Pivoting (BPA) reconstruction
+        radii = [0.003, 0.005, 0.01, 0.02]
         mesh = o3d.geometry.TriangleMesh.create_from_point_cloud_ball_pivoting(
             pcd, o3d.utility.DoubleVector(radii)
         )
@@ -41,10 +40,24 @@ for file in tqdm(os.listdir(pcd_folder)):
             print(f" No mesh triangles generated for: {file}")
             continue
 
-        # Save mesh
-        o3d.io.write_triangle_mesh(os.path.join(mesh_folder, f"{name}_mesh.glb"), mesh)
+        # Clean mesh
+        mesh.remove_unreferenced_vertices()
+        mesh.remove_degenerate_triangles()
+        mesh.remove_duplicated_triangles()
+        mesh.remove_duplicated_vertices()
+
+        # Optional: Smooth mesh
+        mesh = mesh.filter_smooth_laplacian(number_of_iterations=10)
+
+        # Visual inspection (optional)
+        # o3d.visualization.draw_geometries([mesh])
+
+        # Save mesh as GLB (works well with textures later)
+        mesh_path = os.path.join(mesh_folder, f"{name}_mesh.glb")
+        o3d.io.write_triangle_mesh(mesh_path, mesh)
+        print(f"Saved: {mesh_path}")
 
     except Exception as e:
-        print(f"Error processing {file}: {e}")
+        print(f" Error processing {file}: {e}")
 
-print("Finished generating meshes.")
+print(" Finished generating all meshes.")
