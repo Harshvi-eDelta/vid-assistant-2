@@ -46,3 +46,17 @@ for img_name in tqdm(os.listdir(input_folder)):
         # Save result
         output_path = os.path.join(output_folder, img_name.split('.')[0] + "_depth.png")
         cv2.imwrite(output_path, depth_vis)
+
+# Debug one image only
+'''for img_name in os.listdir(input_folder):
+    if img_name.lower().endswith((".jpg", ".png", ".jpeg")):
+        img_path = os.path.join(input_folder, img_name)
+        img = cv2.imread(img_path)
+        img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+        print(f"Original: {img_rgb.shape}")
+
+        input_tensor = transform(img_rgb).to(device)
+        print(f"Transformed: {input_tensor.shape}")
+
+        break  # ✅ Stop after first image'''

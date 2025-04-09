@@ -1,4 +1,4 @@
-import os
+'''import os
 import torch
 import cv2
 import numpy as np
@@ -24,6 +24,9 @@ for filename in os.listdir(input_img_dir):
         resized_image = cv2.resize(image, (256, 256))
 
         landmarks = torchfile.load(t7_path)  # Load as numpy array or dict
+        print(f"Landmarks for {filename}: {landmarks[:5]}")
+        landmarks = landmarks / 256.0  # ✅ Normalize here to [0, 1] for model training
+
         #print(landmarks)  # Check format
 
         landmarks = torch.tensor(landmarks, dtype=torch.float32)  # Convert to PyTorch tensor
@@ -43,4 +46,53 @@ for filename in os.listdir(input_img_dir):
         cv2.imwrite(out_img_path, resized_image)
         torch.save(resized_landmarks, out_t7_path)
 
-print(" Step 1 complete: Images and landmarks resized and saved.")
+print(" Step 1 complete: Images and landmarks resized and saved.")'''
+
+# data.py
+
+import os
+import torch
+import numpy as np
+import cv2
+from torch.utils.data import Dataset
+from torchvision import transforms
+
+def get_valid_image_list(image_dir, t7_dir):
+    valid_list = []
+    image_files = [f for f in os.listdir(image_dir) if f.endswith('.jpg') or f.endswith('.png')]
+    for fname in image_files:
+        t7_path = os.path.join(t7_dir, fname.replace('.jpg', '.t7').replace('.png', '.t7'))
+        if not os.path.exists(t7_path):
+            continue
+        try:
+            landmarks = torch.load(t7_path).numpy()
+            if landmarks.shape == (68, 2) and np.all((landmarks >= 0) & (landmarks <= 1)):
+                valid_list.append(fname)
+        except:
+            continue
+    return valid_list
+
+class FilteredLandmarkDataset(Dataset):
+    def __init__(self, image_dir, t7_dir, valid_list, transform=None):
+        self.image_dir = image_dir
+        self.t7_dir = t7_dir
+        self.valid_list = valid_list
+        self.transform = transform
+
+    def __len__(self):
+        return len(self.valid_list)
+
+    def __getitem__(self, idx):
+        fname = self.valid_list[idx]
+        img_path = os.path.join(self.image_dir, fname)
+        t7_path = os.path.join(self.t7_dir, fname.replace('.jpg', '.t7').replace('.png', '.t7'))
+
+        image = cv2.imread(img_path)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        if self.transform:
+            image = self.transform(image)
+
+        landmarks = torch.load(t7_path)  # shape: (68, 2)
+        landmarks = landmarks.view(-1)   # Flatten to [136]
+        return image, landmarks
+

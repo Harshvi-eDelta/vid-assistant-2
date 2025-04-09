@@ -1,4 +1,4 @@
-'''import os
+import os
 import cv2
 import open3d as o3d
 import numpy as np
@@ -55,7 +55,7 @@ for file in tqdm(os.listdir(rgb_folder)):
     # Save to file
     o3d.io.write_point_cloud(output_path, pcd)
 
-print("Batch point cloud generation complete.")'''
+print("Batch point cloud generation complete.")
 
 '''import open3d as o3d
 
