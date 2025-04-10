@@ -14,7 +14,7 @@ model.eval()
 face_detector = dlib.get_frontal_face_detector()
 
 # Image path
-img_path = "/Users/edelta076/Desktop/Project_VID_Assistant2/face_images/fimg12.jpg"
+img_path = "/Users/edelta076/Desktop/Project_VID_Assistant2/face_images/4.jpg"
 image = cv2.imread(img_path)
 if image is None:
     raise FileNotFoundError(f"Image not found: {img_path}")
