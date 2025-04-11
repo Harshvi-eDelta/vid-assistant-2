@@ -49,3 +49,11 @@ for file in mesh_files:
     print(f" UV unwrapped mesh saved: {output_path}")
 
 print(" All meshes processed.")
+
+
+# to tun this on terminal 
+
+'''
+blender --background --python uv_unwrap_batch.py
+
+'''
