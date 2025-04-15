@@ -1,23 +1,101 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Simple Image Upload</title>
-  <style>
-    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-    img { max-width: 400px; margin-top: 20px; border: 1px solid #ccc; }
-  </style>
+    <title>Avatar UI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- for image icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- for gradient background -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradient Background</title>
+    <link rel="stylesheet" href="css/style.css">
+
 </head>
 <body>
-  <h1>Upload an Image</h1>
-  <form action="/upload" method="POST" enctype="multipart/form-data">
-    <input type="file" name="image" accept="image/*" required>
-    <br><br>
-    <button type="submit">Upload</button>
-  </form>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- <h2>Upload Your Image</h2> -->
+            <h3>Avatars</h3>
+            <button id="openModalBtn" class="create-avatar-btn">Create Your Avatar</button>
 
-  {% if uploaded_image %}
-    <h3>Uploaded Image:</h3>
-    <img src="{{ uploaded_image }}" width="300">
-  {% endif %}
+            <!-- Avatar Gallery -->
+
+            
+            <div class="avatar-gallery">
+                {% for avatar in avatars %}
+                    <div class="avatar-card">
+                        <img src="{{ avatar.url }}" alt="{{ avatar.name }}">
+                        <p>{{ avatar.name }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <h2>Welcome to Your Avatar Gallery</h2>
+            <div class="avatar-box">
+                <img id="uploadedAvatar" src="path_to_uploaded_image" alt="Avatar" class="avatar-round">
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal (Popup) for Avatar Creation -->
+    <div id="avatarModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModalBtn">&times;</span>
+            <h2>Create Your Avatar</h2>
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <div class="upload-box">
+                    <!-- <label for="imageUpload" class="upload-label">
+                        Click to upload an image
+                    </label> -->
+                    <label for="upload" class="upload-label">
+                        <i class="fas fa-upload"></i> Choose Image
+                    </label>
+                    <input type="file" id="upload" name="image" required style="display: none;">
+                </div>
+                <input type="text" name="avatar_name" class="input-text" placeholder="Enter Avatar Name" required>
+                <div class="modal-buttons">
+                  <button type="button" class="cancel-btn" id="cancelBtn">Cancel</button>
+                  <button type="submit" class="create-btn">Create</button>
+                </div>                           
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get Modal and Button Elements
+        var modal = document.getElementById("avatarModal");
+        var openModalBtn = document.getElementById("openModalBtn");
+        var closeModalBtn = document.getElementById("closeModalBtn");
+        var cancelBtn = document.getElementById("cancelBtn");
+
+        // When the user clicks on the button, open the modal
+        openModalBtn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        closeModalBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks on Cancel button, close the modal
+        cancelBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
