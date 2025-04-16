@@ -12,6 +12,7 @@ body {
 /* Sidebar Styles */
 .sidebar {
     width: 400px;
+    height: inherit;
     background-color: #fefefe;
     padding: 20px;
     box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
@@ -21,7 +22,7 @@ body {
 .main-content {
     background: #7b43de;
     /* background: linear-gradient(180deg, rgba(123, 67, 222, 1) 0%, rgba(152, 123, 212, 1) 53%, rgba(193, 93, 227, 1) 100%);    */
-    background: linear-gradient(to bottom left,rgb(224, 148, 213,100) 0%,rgb(56, 56, 207,100) 90%,rgb(38,38,69,100) 100%);
+    background: linear-gradient(to bottom left,rgb(224, 148, 213,100) 5%,rgb(56, 56, 207,100) 90%);
     padding: 20px;
     height: 100%;
     width: 100%;
@@ -62,6 +63,7 @@ body {
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+
 }
 
 .avatar-card img {
@@ -216,17 +218,17 @@ body {
 
 /* Dashed Upload Box */
 .upload-box {
-    border: 2px dashed #bebebe;
+    /* border: 2px dashed #fffbfb; */
     padding: 20px;
     height: 100px;
     text-align: center;
     border-radius: 8px;
-    background-color: #f3f1f1;
+    background-color: #ffffff;
     cursor: pointer;
     margin-bottom: 20px;
     position: relative;
 }
-
+/* 
 .upload-label {
     color: #555;
     font-size: 16px;
@@ -235,7 +237,33 @@ body {
 }
 
 .upload-box input[type="file"] {
-    display: none; /* Hide default file input */
+    display: none; 
+} */
+
+.custom-upload-icon {
+    display: inline-block;
+    cursor: pointer;
+    margin: 2px 0;
+}
+
+.upload-icon-img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.upload-icon-img:hover {
+    transform: scale(1.1);
+}
+
+.avatar-round {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
 }
 
 /* Equal Sized Buttons */

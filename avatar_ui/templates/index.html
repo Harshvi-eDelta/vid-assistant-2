@@ -39,7 +39,9 @@
         <div class="main-content">
             <h2>Welcome to Your Avatar Gallery</h2>
             <div class="avatar-box">
-                <img id="uploadedAvatar" src="path_to_uploaded_image" alt="Avatar" class="avatar-round">
+                <!-- <img id="uploadedAvatar" src="static/uploads/ABC.png" alt="Avatar" class="avatar-round"> -->
+                <!-- This image should be shown only AFTER user clicks "Create" -->
+                <img id="uploadedAvatar" src="{{ url_for('static', filename='images/placeholder.png') }}" alt="Avatar" class="avatar-round">
             </div>
         </div>
     </div>
@@ -48,16 +50,25 @@
     <div id="avatarModal" class="modal">
         <div class="modal-content">
             <span class="close" id="closeModalBtn">&times;</span>
-            <h2>Create Your Avatar</h2>
+            <h2>Upload your Image</h2>
             <form action="/upload" method="post" enctype="multipart/form-data">
                 <div class="upload-box">
                     <!-- <label for="imageUpload" class="upload-label">
                         Click to upload an image
                     </label> -->
-                    <label for="upload" class="upload-label">
-                        <i class="fas fa-upload"></i> Choose Image
-                    </label>
-                    <input type="file" id="upload" name="image" required style="display: none;">
+                    <!-- <input type="file" id="upload" name="image" required style="display: none;"> -->
+                    <!-- Hidden file input -->
+                    <input type="file" id="upload" name="image" accept="image/*" style="display: none;" required>
+                    <!-- Image icon that triggers the file input -->
+                    <img id="uploadIcon" 
+                        src="{{ url_for('static', filename='images/upload_icon1.png') }}"
+                        alt="Upload"
+                        class="upload-icon-img"
+                        onclick="document.getElementById('upload').click();">
+
+                    <!-- <label for="upload" class="upload-label">
+                        <img src="{{ url_for('static', filename='images/upload_icon1.png') }}" alt="Upload" class="upload-icon-img">
+                    </label> -->
                 </div>
                 <input type="text" name="avatar_name" class="input-text" placeholder="Enter Avatar Name" required>
                 <div class="modal-buttons">
@@ -96,6 +107,44 @@
                 modal.style.display = "none";
             }
         }
+    </script>
+
+    <script>
+
+        const uploadInput = document.getElementById('upload');
+        const uploadIcon = document.getElementById('uploadIcon');
+        const uploadedAvatar = document.getElementById('uploadedAvatar');
+        const createBtn = document.querySelector('.create-btn');
+        let selectedImageURL = null;
+
+        // When user selects an image
+        uploadInput.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    selectedImageURL = e.target.result;
+                    // Update image icon inside modal
+                    uploadIcon.src = selectedImageURL;
+                };
+
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // When user clicks the Create button
+        createBtn.addEventListener('click', function (event) {
+            event.preventDefault(); // stop form from submitting
+
+            if (selectedImageURL) {
+                uploadedAvatar.src = selectedImageURL;
+            }
+
+            // After setting the image, submit the form manually
+            createBtn.closest('form').submit();
+        });
+
     </script>
 </body>
 </html>
