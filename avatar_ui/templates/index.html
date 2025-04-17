@@ -41,7 +41,9 @@
             <div class="avatar-box">
                 <!-- <img id="uploadedAvatar" src="static/uploads/ABC.png" alt="Avatar" class="avatar-round"> -->
                 <!-- This image should be shown only AFTER user clicks "Create" -->
-                <img id="uploadedAvatar" src="{{ url_for('static', filename='images/placeholder.png') }}" alt="Avatar" class="avatar-round">
+                <!-- <img id="uploadedAvatar" src="{{ url_for('static', filename='images/placeholder.png') }}" alt="Avatar" class="avatar-round"> -->
+                <img id="uploadedAvatar" src="{{ avatars[-1].url if avatars else 'static/uploads/default.png' }}" alt="Avatar" class="avatar-round">
+            </div>
             </div>
         </div>
     </div>

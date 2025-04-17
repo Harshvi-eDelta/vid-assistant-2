@@ -43,7 +43,7 @@ if __name__ == '__main__':
 
 # Backend
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,url_for,redirect
 import os
 from PIL import Image
 from werkzeug.utils import secure_filename

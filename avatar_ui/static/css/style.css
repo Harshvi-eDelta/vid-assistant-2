@@ -18,16 +18,27 @@ body {
     box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
 }
 
+.avatar-round {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
 /* Main Content Area */
 .main-content {
     background: #7b43de;
     /* background: linear-gradient(180deg, rgba(123, 67, 222, 1) 0%, rgba(152, 123, 212, 1) 53%, rgba(193, 93, 227, 1) 100%);    */
     background: linear-gradient(to bottom left,rgb(224, 148, 213,100) 5%,rgb(56, 56, 207,100) 90%);
+    /* background: linear-gradient(to bottom left, #D1A6FF, #A7C7FF); */
     padding: 20px;
     height: 100%;
     width: 100%;
     color: white; /* White text for better contrast */
 }
+
 
 /* Create Avatar Button */
 .create-avatar-btn {
@@ -193,28 +204,33 @@ body {
 }
 
 .avatar-card {
-    width: 48%;  /* This ensures two images fit per row */
+    width: 120px;  /* or whatever you prefer */
+    height: 120px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     text-align: center;
-    border-radius: 18px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 1px;
-    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .avatar-card img {
     width: 100%;
-    height: auto;  /* Maintains aspect ratio */
-    border-radius: 10px;
-    max-height: 200px;  /* Limits image height */
-    object-fit: cover;  /* Ensures images cover the box without distortion */
+    height: 100%;
+    margin-top: 15px;
+    object-fit: cover;  /* important! */
+    border-radius: 12px;
 }
 
-.avatar-card p {
+/* .avatar-card p {
     font-size: 14px;
     color: #555;
     margin-top: 10px;
     font-weight: bold;
-}
+} */
 
 /* Dashed Upload Box */
 .upload-box {
