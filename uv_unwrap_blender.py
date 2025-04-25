@@ -15,7 +15,7 @@ for file in mesh_files:
     name, ext = os.path.splitext(file)
     output_path = os.path.join(output_folder, f"{name}_uv{ext}")
 
-    # --- RESET SCENE --- #
+     # --- RESET SCENE --- #
     bpy.ops.wm.read_factory_settings(use_empty=True)
 
     # --- IMPORT MESH --- #
