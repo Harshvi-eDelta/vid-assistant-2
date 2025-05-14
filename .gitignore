@@ -22,3 +22,12 @@ landmark_model_w.pth
 landmark_model_1.pth
 
 requirements.txt
+
+output_depth_map_1.png
+output_depth_map_4.png
+output_point_4.ply
+output_mesh_4.glb
+output_with_landmarks_1.jpg
+output_with_landmarks_4.jpg
+
+script_one.py
