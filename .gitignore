@@ -31,3 +31,6 @@ output_with_landmarks_1.jpg
 output_with_landmarks_4.jpg
 
 script_one.py
+
+output_textured_mesh_1.glb
+output_textured_mesh_4.glb
